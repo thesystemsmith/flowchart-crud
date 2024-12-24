@@ -46,8 +46,8 @@ exports.updateFlowchart = async (req, res) => {
     try {
         const { nodes, edges } = req.body;
         if (!validateGraph(nodes, edges)) {
-            return res.status(400).json({ 
-                error: 'Invalid graph structure' 
+            return res.status(400).json({
+                error: 'Invalid graph structure'
             });
         }
 
@@ -57,16 +57,41 @@ exports.updateFlowchart = async (req, res) => {
             { new: true }
         );
 
+        if (!flowchart) {
+            return res.status(404).json({
+                error: 'Flowchart not found'
+            });
+        }
+
+        res.json(flowchart); // updated
+    } catch (err) {
+        res.status(400).json({
+            error: err.message
+        });
+    }
+};
+
+//delete
+exports.deleteFlowchart = async (req, res) => {
+    try {
+        const flowchart = await Flowchart.findOneAndDelete({ 
+            id: req.params.id 
+        });
+
         if (!flowchart){
             return res.status(404).json({ 
                 error: 'Flowchart not found' 
             });
         } 
 
-        res.json(flowchart); // updated
+        res.json({
+            message: 'Flowchart deleted' 
+        });
+
     } catch (err) {
         res.status(400).json({ 
             error: err.message 
         });
     }
 };
+
