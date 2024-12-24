@@ -74,24 +74,48 @@ exports.updateFlowchart = async (req, res) => {
 //delete
 exports.deleteFlowchart = async (req, res) => {
     try {
-        const flowchart = await Flowchart.findOneAndDelete({ 
+        const flowchart = await Flowchart.findOneAndDelete({
+            id: req.params.id
+        });
+
+        if (!flowchart) {
+            return res.status(404).json({
+                error: 'Flowchart not found'
+            });
+        }
+
+        res.json({
+            message: 'Flowchart deleted'
+        });
+
+    } catch (err) {
+        res.status(400).json({
+            error: err.message
+        });
+    }
+};
+
+//get edges
+exports.getOutgoingEdges = async (req, res) => {
+    try {
+        const flowchart = await Flowchart.findOne({ 
             id: req.params.id 
         });
 
-        if (!flowchart){
+        if (!flowchart) {
             return res.status(404).json({ 
                 error: 'Flowchart not found' 
             });
-        } 
+        }
 
-        res.json({
-            message: 'Flowchart deleted' 
-        });
+        const outgoingEdges = flowchart.edges.filter(edge => 
+            edge.from === req.params.nodeId
+        );
 
+        res.json(outgoingEdges);
     } catch (err) {
         res.status(400).json({ 
             error: err.message 
         });
     }
 };
-
