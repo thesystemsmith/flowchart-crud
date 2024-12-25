@@ -12,11 +12,16 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.3",
+    "chai": "^3.5.0",
     "express": "^4.21.2",
     "jest": "^29.7.0",
     "mongoose": "^8.9.2",
-    "supertest": "^7.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^11.0.1",
+    "sinon": "^19.0.2",
+    "supertest": "^7.0.0"
   }
 }

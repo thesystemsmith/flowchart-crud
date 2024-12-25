@@ -8,11 +8,28 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "development",
             "skipFiles": [
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/src/app.js"
+        },
+        {
+            
+                "type": "node",
+                "request": "launch",
+                "name": "Launch Mocha Tests",
+                "skipFiles": ["<node_internals>/**"],
+                "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+                "args": [
+                    "--recursive",
+                    "src/test/**/*.test.js"
+                ],
+                "env": {
+                    "NODE_ENV": "test"
+                },
+                "console": "integratedTerminal"
+            
         }
     ]
 }
