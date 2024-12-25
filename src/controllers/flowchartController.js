@@ -123,21 +123,47 @@ exports.getOutgoingEdges = async (req, res) => {
 //get nodes based on
 exports.getConnectedNodes = async (req, res) => {
     try {
-        const flowchart = await Flowchart.findOne({ 
-            id: req.params.id 
+        const flowchart = await Flowchart.findOne({
+            id: req.params.id
         });
 
-        if (!flowchart){
-            return res.status(404).json({ 
-                error: 'Flowchart not found' 
+        if (!flowchart) {
+            return res.status(404).json({
+                error: 'Flowchart not found'
             });
-        } 
+        }
 
         const connectedNodes = findConnectedNodes(flowchart, req.params.nodeId);
         res.json(connectedNodes);
     } catch (err) {
-        res.status(400).json({ 
-            error: err.message 
+        res.status(400).json({
+            error: err.message
         });
     }
 };
+
+//validate api
+exports.validateFlowchart = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Retrieve the flowchart by ID from the database
+        const flowchart = await Flowchart.findOne({ id });
+
+        if (!flowchart) {
+            return res.status(404).json({ error: 'Flowchart not found' });
+        }
+
+        // Call the validateGraoh function from the utility to check if the flowchart is valid
+        const isValid = validateGraph(flowchart.nodes, flowchart.edges);
+
+        if (isValid) {
+            return res.json({ message: 'Flowchart is valid' });
+        } else {
+            return res.status(400).json({ error: 'Flowchart is invalid' });
+        }
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+
+}
