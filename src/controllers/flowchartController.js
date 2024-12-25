@@ -112,6 +112,13 @@ exports.getOutgoingEdges = async (req, res) => {
             edge.from === req.params.nodeId
         );
 
+        //error
+        if(outgoingEdges.length == 0){
+            return res.status(404).json({
+                error: 'No outgoing edges found for the specified node'
+            });
+        }
+
         res.json(outgoingEdges);
     } catch (err) {
         res.status(400).json({
