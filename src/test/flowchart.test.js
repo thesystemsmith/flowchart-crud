@@ -9,7 +9,7 @@ const { expect } = chai
 describe('POST /api/flowcharts', () => {
     it('should create a new flowchart and return the created flowchart data', async () => {
         const flowchartData = {
-            id: 'testchart',
+            id: 'testchart', //differentiator
             "nodes": [
                 { "id": "node1", "label": "Node 1" },
                 { "id": "node2", "label": "Node 2" },
