@@ -215,5 +215,3 @@ router.get('/flowcharts/:id/connected-nodes/:nodeId', (req, res) => {
 });
 
 module.exports = router;
-
-module.exports = router
